@@ -43,6 +43,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
+                    print(mode)
                     if(message_text == "HELP"):
                         reply = "Say \"MODE PUN\" to set to Pun Mode, or \"MODE REPEAT\" to set to Repeat Mode"
                     elif(len(message_text.strip().split()) == 2 and (message_text.strip().split()[0] == "MODE")):
