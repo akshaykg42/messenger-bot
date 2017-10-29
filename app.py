@@ -10,7 +10,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-
+mode = "PUN"
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -31,7 +31,7 @@ def webhook():
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
-    mode = "PUN"
+    global mode
 
     if data["object"] == "page":
 
