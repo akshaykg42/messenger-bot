@@ -3,12 +3,14 @@ import sys
 import json
 from datetime import datetime
 import pun_grabber
+import message_repeater
 
 import requests
 from flask import Flask, request
 
 app = Flask(__name__)
 
+mode = "PUN"
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -40,10 +42,23 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    print("Before pun grabber runs", message_text)
-                    reply = pun_grabber.generate_pun(message_text)
 
-                    send_message(sender_id, "pun: " + reply)
+                    if(message_text == "HELP"):
+                        reply = "Say \"MODE PUN\" to set to Pun Mode, or \"MODE REPEAT\" to set to Repeat Mode"
+                    elif(len(message_text.strip().split()) == 2 and (message_text.strip().split()[0] == "MODE")):
+                        new_mode = message_text.strip().split()[1]
+                        if(new_mode == "PUN"):
+                            mode = "PUN"
+                            reply = "Set to Pun Mode"
+                        elif(new_mode == "REPEAT"):
+                            mode = "REPEAT"
+                            reply = "Set to Repeat Mode"
+                    elif(mode == "PUN"):
+                        reply = pun_grabber.generate_pun(message_text)
+                    elif(mode == "REPEAT"):
+                        reply = message_repeater.generate_repeat(message_text)
+
+                    send_message(sender_id, reply)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
