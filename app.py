@@ -45,6 +45,8 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
 
                     print(mode)
+                    reply = "Invalid command"
+
                     if(message_text == "HELP"):
                         reply = "Say \"MODE PUN\" to set to Pun Mode, or \"MODE REPEAT\" to set to Repeat Mode"
                     elif(message_text == "MODE"):
@@ -58,8 +60,10 @@ def webhook():
                             mode = "REPEAT"
                             reply = "Set to Repeat Mode"
                     elif(mode == "PUN"):
+                        print("punning")
                         reply = pun_grabber.generate_pun(message_text)
                     elif(mode == "REPEAT"):
+                        print("repeating")
                         reply = message_repeater.generate_repeat(message_text)
 
                     send_message(sender_id, reply)
