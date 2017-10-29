@@ -47,6 +47,8 @@ def webhook():
                     print(mode)
                     if(message_text == "HELP"):
                         reply = "Say \"MODE PUN\" to set to Pun Mode, or \"MODE REPEAT\" to set to Repeat Mode"
+                    elif(message_text == "MODE"):
+                        reply = "The mode is: " + mode
                     elif(len(message_text.strip().split()) == 2 and (message_text.strip().split()[0] == "MODE")):
                         new_mode = message_text.strip().split()[1]
                         if(new_mode == "PUN"):
